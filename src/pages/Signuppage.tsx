@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Eye, EyeOff, UserPlus,LogIn } from "lucide-react";
+import { Eye, EyeOff, UserPlus, LogIn } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../redux/store";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../redux/store";
 
 const SignupPage = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const SignupPage = () => {
     password: "",
     confirmPassword: "",
   });
-  const authState = useSelector((state) => state.auth); // Access auth state
+  const authState = useSelector((state: any) => state.auth); // Access auth state
 
   const validateForm = () => {
     let isValid = true;
@@ -63,7 +64,7 @@ const SignupPage = () => {
     return isValid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
       // TODO: Implement signup logic

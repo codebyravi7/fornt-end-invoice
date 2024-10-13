@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { Eye, EyeOff, LogIn,UserPlus } from "lucide-react";
-import { useDispatch ,useSelector} from "react-redux";
+import { Eye, EyeOff, LogIn, UserPlus } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/store";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../redux/store"; // Adjust the import based on your project structure
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
-  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
-  const dispatch = useDispatch();
-  const authState = useSelector((state) => state.auth);
+  const dispatch: AppDispatch = useDispatch(); // Typed dispatch
+  const authState = useSelector((state: any) => state.auth); // Update the type if you have a RootState
+  const navigate = useNavigate();
 
   const validateForm = () => {
     let isValid = true;
@@ -36,18 +37,16 @@ const LoginPage = () => {
     return isValid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    // Specify event type
     e.preventDefault();
     if (validateForm()) {
-      // TODO: Implement login logic
       const resultAction = await dispatch(loginUser({ email, password }));
 
       if (loginUser.fulfilled.match(resultAction)) {
-        // Navigate to the invoice form page upon successful login
-        navigate("/");
+        navigate("/"); // Navigate upon successful login
       } else {
-        // Handle login error (you can show an alert or update UI)
-        console.error(authState.error);
+        console.error(authState.error); // Handle login error
       }
     }
   };

@@ -5,7 +5,7 @@ import {
   PayloadAction,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import axios from "axios"; // Import axios for API calls
+import axios from "axios";
 
 interface Product {
   name: string;
@@ -65,24 +65,20 @@ const initialAuthState: AuthState = {
   error: null,
 };
 
-// Async thunk for login
-export const loginUser = createAsyncThunk(
-  "auth/login",
-  async (
-    credentials: { email: string; password: string },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BE_URI}/auth/login`,
-        credentials
-      );
-      return response.data; // Assume the API returns user data and token
-    } catch (error) {
-      return rejectWithValue("Login failed. Please check your credentials."); // Handle error
-    }
+export const loginUser = createAsyncThunk<
+  { token: string; user: { name: string; email: string } }, // return type
+  { email: string; password: string } // argument type
+>("auth/login", async (credentials, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BE_URI}/auth/login`,
+      credentials
+    );
+    return response.data; // This should match the return type defined above
+  } catch (error) {
+    return rejectWithValue("Login failed. Please check your credentials.");
   }
-);
+});
 
 // Async thunk for signup
 export const signupUser = createAsyncThunk(
@@ -107,10 +103,11 @@ export const fetchInvoices = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BE_URI}/invoice/fetchAll`, {
+        `${import.meta.env.VITE_BE_URI}/invoice/fetchAll`,
+        {
           headers: {
             Auth: token,
-          }
+          },
         }
       );
       return response?.data; // Assume the API returns an array of invoices
@@ -221,7 +218,7 @@ const authSlice = createSlice({
 });
 
 // Export actions from the slices
-export const { addProduct, setCustomer,resetProducts } = invoiceSlice.actions;
+export const { addProduct, setCustomer, resetProducts } = invoiceSlice.actions;
 export const { logout } = authSlice.actions;
 
 // Configure the store
@@ -231,3 +228,7 @@ export const store = configureStore({
     auth: authSlice.reducer,
   },
 });
+
+export type AppDispatch = typeof store.dispatch;
+
+export type RootState = ReturnType<typeof store.getState>;

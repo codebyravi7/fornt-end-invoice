@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchInvoices } from "../redux/store"; // Adjust the path as necessary
-import { ChevronDown, ChevronUp, DollarSign, Mail, User } from "lucide-react";
+import { ChevronDown, ChevronUp, Mail, User } from "lucide-react";
+import { AppDispatch } from "../redux/store"; // Adjust the import based on your project structure
 
 const InvoicesPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const invoices = useSelector(
     (state: any) => state.invoice.invoices?.invoices
   );
@@ -98,7 +99,6 @@ const InvoicesPage: React.FC = () => {
                     {formattedDate(invoice?.createdAt)}
                   </div>
                   <div className=" flex justify-end items-center">
-                    <DollarSign className="mr-2 text-green-600" size={20} />
                     <span className="font-bold text-lg">
                       Total: ${calculateTotal(invoice.products)}
                     </span>
