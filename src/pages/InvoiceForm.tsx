@@ -34,7 +34,7 @@ const InvoiceForm: React.FC = () => {
     const generateInvoice = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/generate-invoice",
+          `${import.meta.env.VITE_BE_URI}/generate-invoice`,
           invoice,
           {
             responseType: "blob",
@@ -67,7 +67,6 @@ const InvoiceForm: React.FC = () => {
       setIsCustomerSet(false); // Reset the flag
     }
   }, [isCustomerSet, customer, invoice, token, dispatch]); // Add dispatch to the dependency array
-
 
   return (
     <>
