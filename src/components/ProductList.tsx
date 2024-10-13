@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ShoppingBag, Package, DollarSign, CreditCard } from "lucide-react";
+import { ShoppingBag, Package, CreditCard } from "lucide-react";
 
 const ProductList: React.FC = () => {
   const products = useSelector((state: any) => state.invoice.products);
