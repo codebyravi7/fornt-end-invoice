@@ -1,3 +1,5 @@
+view-Live :: https://fornt-end-invoice.vercel.app/
+
 1.Download and Extract
 Download the ZIP file containing the project. Extract the contents into separate folders for the frontend and backend.
 #backend-repo link : https://github.com/codebyravi7/backend-invoice
