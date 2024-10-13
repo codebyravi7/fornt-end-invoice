@@ -107,7 +107,11 @@ export const fetchInvoices = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BE_URI}/invoice/fetchAll`
+        `${import.meta.env.VITE_BE_URI}/invoice/fetchAll`, {
+          headers: {
+            Auth: token,
+          }
+        }
       );
       return response?.data; // Assume the API returns an array of invoices
     } catch (error) {
